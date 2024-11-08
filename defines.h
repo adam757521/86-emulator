@@ -9,4 +9,7 @@ typedef uint32_t DWORD;
 
 typedef BYTE OPCODE;
 
+#define KB 1024
+#define MB 1048576
+
 #endif
