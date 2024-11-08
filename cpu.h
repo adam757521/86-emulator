@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include "defines.h"
 
+#define MEMORY_SIZE 1 * KB
+
 typedef union
 {
     BYTE low;
@@ -32,7 +34,7 @@ typedef enum
 typedef struct
 {
     cpu_register_t registers[REGISTERS_COUNT];
-
+    BYTE memory[MEMORY_SIZE];
 } cpu_t;
 
 #endif
