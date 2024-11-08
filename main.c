@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdio.h>
 #include "cpu.h"
 #include "machine.h"
 
@@ -9,14 +10,22 @@ typedef struct {
 
 int main() {
     cpu_t cpu;
-    cpu.registers[EAX].dword = 50;
-    cpu.registers[ESP].dword = MEMORY_SIZE - 1;
+    cpu.gp_registers[EAX].dword = 50;
+    cpu.ip = 0;
+    cpu.gp_registers[ESP].dword = MEMORY_SIZE - 1;
 
     initialize_first_map();
 
-    OPCODE test[] = {0x50};
+    OPCODE test[] = {0x50, 0x59};
 
-    emulate_machine_code(&cpu, test);
+    for (;;) {
+        int status = emulate_machine_code(&cpu, test, 2);
+        printf("status: %d\n", status);
+        if (status != 0) {
+            break;
+        }
+
+    }
 
     destruct_map_recursive();
     return 0;

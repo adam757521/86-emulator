@@ -2,13 +2,22 @@
 #include <stdio.h>
 #include <memory.h>
 
-void push(cpu_t* cpu, OPCODE* opcodes, uint8_t count) {
-    BYTE register_ = opcodes[0] - 0x50;
-    cpu_register_t* reg = &cpu->registers[register_];
+void push(cpu_t* cpu, OPCODE* opcodes) {
+    BYTE register_ = opcodes[cpu->ip] - 0x50;
+    cpu_register_t* reg = &cpu->gp_registers[register_];
     
-    DWORD* esp = &cpu->registers[ESP].dword;
+    DWORD* esp = &cpu->gp_registers[ESP].dword;
     *esp -= 4;
     memcpy(&cpu->memory[*esp], &reg->dword, 4);
-    printf("%d\n", *(int*)&cpu->memory[*esp]);
+}
 
+void pop(cpu_t* cpu, OPCODE* opcodes) {
+    BYTE register_ = opcodes[cpu->ip] - 0x58;
+    cpu_register_t* reg = &cpu->gp_registers[register_];
+
+    DWORD* esp = &cpu->gp_registers[ESP].dword;
+    memcpy(&reg->dword, &cpu->memory[*esp], 4);
+    *esp += 4;
+
+    printf("my register: %d\n", reg->dword);
 }

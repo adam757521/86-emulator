@@ -35,7 +35,8 @@ typedef enum
 
 typedef struct
 {
-    cpu_register_t registers[REGISTERS_COUNT];
+    cpu_register_t gp_registers[REGISTERS_COUNT];
+    DWORD ip;
     BYTE memory[MEMORY_SIZE];
 } cpu_t;
 

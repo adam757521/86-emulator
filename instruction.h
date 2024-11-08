@@ -3,9 +3,16 @@
 
 #include "defines.h"
 #include "cpu.h"
+#include <stddef.h>
 
-typedef void (*INSTRUCTION_HA)(cpu_t*, OPCODE*, uint8_t);
+typedef void (*INSTRUCTION_HA)(cpu_t*, OPCODE*);
 
-void push(cpu_t*, OPCODE* opcodes, uint8_t count);
+typedef struct {
+    INSTRUCTION_HA handler;
+    size_t consumed_opcodes;
+} handler_t;
+
+void push(cpu_t*, OPCODE* opcodes);
+void pop(cpu_t*, OPCODE* opcodes);
 
 #endif
