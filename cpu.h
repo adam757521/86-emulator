@@ -6,9 +6,9 @@
 
 typedef union
 {
-    uint8_t low;
-    uint16_t word;
-    uint32_t dword;
+    BYTE low;
+    WORD word;
+    DWORD dword;
 } cpu_register_t;
 
 #define LOW_BYTE(reg) reg.low
