@@ -3,12 +3,14 @@
 #include "cpu.h"
 #include "machine.h"
 
-typedef struct {
-    void* ptr;
+typedef struct
+{
+    void *ptr;
     int is_map;
 } entry_t;
 
-int main() {
+int main()
+{
     cpu_t cpu;
     cpu.gp_registers[EAX].dword = 50;
     cpu.ip = 0;
@@ -16,15 +18,16 @@ int main() {
 
     initialize_first_map();
 
-    OPCODE test[] = {0x50, 0x59};
+    OPCODE test[] = {0x40};
 
-    for (;;) {
+    for (;;)
+    {
         int status = emulate_machine_code(&cpu, test, 2);
         printf("status: %d\n", status);
-        if (status != 0) {
+        if (status != 0)
+        {
             break;
         }
-
     }
 
     destruct_map_recursive();
