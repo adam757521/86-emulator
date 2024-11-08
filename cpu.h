@@ -23,9 +23,11 @@ typedef union
 typedef enum
 {
     EAX,
-    EBX,
     ECX,
     EDX,
+    EBX,
+    ESP,
+    EBP,
     ESI,
     EDI,
     REGISTERS_COUNT
