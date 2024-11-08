@@ -20,14 +20,14 @@ void initialize_first_map() {
     }
 }
 
-void emulate_machine_code(OPCODE* codes) {
+void emulate_machine_code(cpu_t* cpu, OPCODE* codes) {
     entry_t* mapping = entries[codes[0]];
     if (mapping == NULL) {
         return;
     }
     
     INSTRUCTION_HA thing = (INSTRUCTION_HA)mapping->ptr;
-    thing(codes, 1);
+    thing(cpu, codes, 1);
 }
 
 void destruct_map_recursive() {
