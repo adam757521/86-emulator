@@ -9,6 +9,6 @@ void push(cpu_t* cpu, OPCODE* opcodes, uint8_t count) {
     DWORD* esp = &cpu->registers[ESP].dword;
     *esp -= 4;
     memcpy(&cpu->memory[*esp], &reg->dword, 4);
+    printf("%d\n", *(int*)&cpu->memory[*esp]);
 
-    printf("%d\n", *((int*)cpu->memory + *esp));
 }
