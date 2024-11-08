@@ -9,11 +9,12 @@ typedef struct {
 
 int main() {
     cpu_t cpu;
-    cpu.registers[EBP].dword = MEMORY_SIZE - 1;
+    cpu.registers[EAX].dword = 50;
+    cpu.registers[ESP].dword = MEMORY_SIZE - 1;
 
     initialize_first_map();
 
-    OPCODE test[] = {0x55};
+    OPCODE test[] = {0x50};
 
     emulate_machine_code(&cpu, test);
 
