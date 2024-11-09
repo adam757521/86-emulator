@@ -46,10 +46,18 @@ void dec_32_16(cpu_t *cpu, OPCODE *start)
     }
 }
 
-void mov_r32_imm(cpu_t* cpu, OPCODE *opcodes) {
-
+// 66 B8 00 00 
+// 66 B8 01 01
+// 66 B8
+void mov_r32_16_imm(cpu_t* cpu, OPCODE *start) {
+    BYTE is_operand_override = start[0] == 0x66;
+    memcpy(
+        &cpu->gp_registers[start[is_operand_override] - 0xB8],
+        &start[is_operand_override + 1],
+        is_operand_override ? 2 : 4
+    );
 }
 
-void mov_r16_imm(cpu_t* cpu, OPCODE *opcodes) {
+void mov_r8_imm(cpu_t* cpu, OPCODE *start) {
 
 }
