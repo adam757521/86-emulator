@@ -38,7 +38,7 @@ entry_t *get_pop_handler()
 entry_t *get_inc_handler()
 {
     handler_t *handler = malloc(sizeof(handler_t));
-    handler->handler = inc;
+    handler->handler = inc_32_16;
     handler->consumed_opcodes = 1;
 
     entry_t *entry = malloc(sizeof(entry_t));
@@ -60,7 +60,7 @@ entry_t* get_operand_override_map()
 entry_t *get_dec_handler()
 {
     handler_t *handler = malloc(sizeof(handler_t));
-    handler->handler = dec;
+    handler->handler = dec_32_16;
     handler->consumed_opcodes = 1;
 
     entry_t *entry = malloc(sizeof(entry_t));
@@ -99,6 +99,9 @@ void initialize_first_map()
     for (uint8_t start = 0x48; start < 0x50; start++)
     {
         entries[start] = dec_h;
+
+        entry_t** map = entries[0x66]->ptr;
+        map[start] = dec_h;
     }
 }
 

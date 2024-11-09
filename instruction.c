@@ -1,5 +1,6 @@
 #include "instruction.h"
 #include <memory.h>
+#include <stdio.h>
 
 void push(cpu_t *cpu, OPCODE *start)
 {
@@ -23,16 +24,26 @@ void pop(cpu_t *cpu, OPCODE *start)
 
 void inc_32_16(cpu_t *cpu, OPCODE *start)
 {
-    // TODO: add support to 66 and multi opcode
-    // ALU
-    BYTE register_ = start[0] - 0x40;
-    cpu->gp_registers[register_].dword++;
+    BYTE is_operand_override = start[0] == 0x66;
+    cpu_register_t* reg = &cpu->gp_registers[start[is_operand_override] - 0x40];
+    
+    if (is_operand_override) {
+        reg->word++;
+    } else {
+        reg->dword++;
+    }
 }
 
 void dec_32_16(cpu_t *cpu, OPCODE *start)
 {
-    BYTE register_ = start[0] - 0x48;
-    cpu->gp_registers[register_].dword--;
+    BYTE is_operand_override = start[0] == 0x66;
+    cpu_register_t* reg = &cpu->gp_registers[start[is_operand_override] - 0x48];
+    
+    if (is_operand_override) {
+        reg->word--;
+    } else {
+        reg->dword--;
+    }
 }
 
 void mov_r32_imm(cpu_t* cpu, OPCODE *opcodes) {

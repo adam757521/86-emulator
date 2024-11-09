@@ -14,7 +14,7 @@ typedef struct {
 
 void push(cpu_t *, OPCODE *);
 void pop(cpu_t *, OPCODE *);
-void inc(cpu_t *, OPCODE *);
-void dec(cpu_t *, OPCODE *);
+void inc_32_16(cpu_t *, OPCODE *);
+void dec_32_16(cpu_t *, OPCODE *);
 
 #endif
