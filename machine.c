@@ -4,7 +4,6 @@
 
 #include "map.h"
 
-
 int emulate_machine_code(cpu_t* cpu, OPCODE* opcodes, size_t opcodes_size) {
     if (opcodes_size <= cpu->ip) {
         return 2;

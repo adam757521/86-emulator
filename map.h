@@ -11,5 +11,6 @@ typedef struct {
 extern entry_t* entries[256];
 
 void initialize_first_map();
+void destruct_map_recursive();
 
 #endif
