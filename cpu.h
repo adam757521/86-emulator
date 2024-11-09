@@ -30,8 +30,9 @@ typedef enum
     EBP,
     ESI,
     EDI,
-    REGISTERS_COUNT
 } cpu_registers;
+
+#define REGISTERS_COUNT 8
 
 typedef struct
 {

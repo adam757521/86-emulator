@@ -4,6 +4,11 @@
 
 entry_t *entries[256] = {0};
 
+void free_entry(entry_t* entry) {
+    free(entry->ptr);
+    free(entry);
+}
+
 entry_t *get_push_handler()
 {
     handler_t *handler = malloc(sizeof(handler_t));
@@ -43,6 +48,15 @@ entry_t *get_inc_handler()
     return entry;
 }
 
+entry_t* get_operand_override_map() 
+{
+    entry_t* entry = malloc(sizeof(entry_t));
+    entry->ptr = calloc(sizeof(entry_t*), 256);
+    entry->is_map = 1;
+
+    return entry;
+}
+
 entry_t *get_dec_handler()
 {
     handler_t *handler = malloc(sizeof(handler_t));
@@ -58,6 +72,8 @@ entry_t *get_dec_handler()
 
 void initialize_first_map()
 {
+    entries[0x66] = get_operand_override_map();
+
     entry_t *push_h = get_push_handler();
     for (uint8_t start = 0x50; start < 0x58; start++)
     {
@@ -74,6 +90,9 @@ void initialize_first_map()
     for (uint8_t start = 0x40; start < 0x48; start++)
     {
         entries[start] = inc_h;
+        
+        entry_t** map = entries[0x66]->ptr;
+        map[start] = inc_h;
     }
 
     entry_t *dec_h = get_dec_handler();
@@ -85,12 +104,10 @@ void initialize_first_map()
 
 void destruct_map_recursive()
 {
-    free(entries[0x50]->ptr);
-    free(entries[0x50]);
-    free(entries[0x58]->ptr);
-    free(entries[0x58]);
-    free(entries[0x40]->ptr);
-    free(entries[0x40]);
-    free(entries[0x48]->ptr);
-    free(entries[0x48]);
+    free_entry(entries[0x66]);
+
+    free_entry(entries[0x50]);
+    free_entry(entries[0x58]);
+    free_entry(entries[0x40]);
+    free_entry(entries[0x48]);
 }

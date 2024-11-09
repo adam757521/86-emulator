@@ -1,9 +1,9 @@
 #include "instruction.h"
 #include <memory.h>
 
-void push(cpu_t *cpu, OPCODE *opcodes)
+void push(cpu_t *cpu, OPCODE *start)
 {
-    BYTE register_ = opcodes[cpu->ip] - 0x50;
+    BYTE register_ = start[0] - 0x50;
     cpu_register_t *reg = &cpu->gp_registers[register_];
 
     DWORD *esp = &cpu->gp_registers[ESP].dword;
@@ -11,9 +11,9 @@ void push(cpu_t *cpu, OPCODE *opcodes)
     memcpy(&cpu->memory[*esp], &reg->dword, 4);
 }
 
-void pop(cpu_t *cpu, OPCODE *opcodes)
+void pop(cpu_t *cpu, OPCODE *start)
 {
-    BYTE register_ = opcodes[cpu->ip] - 0x58;
+    BYTE register_ = start[0] - 0x58;
     cpu_register_t *reg = &cpu->gp_registers[register_];
 
     DWORD *esp = &cpu->gp_registers[ESP].dword;
@@ -21,16 +21,17 @@ void pop(cpu_t *cpu, OPCODE *opcodes)
     *esp += 4;
 }
 
-void inc(cpu_t *cpu, OPCODE *opcodes)
+void inc_32_16(cpu_t *cpu, OPCODE *start)
 {
     // TODO: add support to 66 and multi opcode
-    BYTE register_ = opcodes[cpu->ip] - 0x40;
+    // ALU
+    BYTE register_ = start[0] - 0x40;
     cpu->gp_registers[register_].dword++;
 }
 
-void dec(cpu_t *cpu, OPCODE *opcodes)
+void dec_32_16(cpu_t *cpu, OPCODE *start)
 {
-    BYTE register_ = opcodes[cpu->ip] - 0x48;
+    BYTE register_ = start[0] - 0x48;
     cpu->gp_registers[register_].dword--;
 }
 
